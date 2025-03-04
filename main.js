@@ -652,6 +652,20 @@ setInterval(() => {
   }
 }, 10 * 60 * 1000); // Check every 10 minutes
 
+app.post('/process_number', (req, res) => {
+    const number = req.body.number;
+
+    if (isNaN(number) || number === "") {
+        return res.status(400).json({ error: "Invalid number provided." }); // Improved error handling
+    }
+
+    const processedNumber = number * 2; // Or any other processing
+
+    res.json({ message: `The processed number is: ${processedNumber}` }); // Send JSON response
+});
+
+
+
 // Initialize the server
 async function initializeServer() {
   try {
