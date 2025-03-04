@@ -1,48 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Outbound Call</title>
+    <title>Number Input to Backend</title>
 </head>
 <body>
-  <h1>Initiate Outbound Call</h1>
-  <form id="callForm">
-    <label for="number">Phone Number:</label>
-    <input type="tel" id="number" name="number" required><br><br>
+    <h1>Enter a Number</h1>
+    <input type="number" id="numberInput">
+    <button onclick="sendNumber()">Send Number</button>
 
-    <label for="calendlyLink">Calendly Link:</label>
-    <input type="url" id="calendlyLink" name="calendlyLink" required><br><br>
+    <div id="responseArea"></div>  </body>
 
-    <button type="submit">Call</button>
-  </form>
+    <script>
+        function sendNumber() {
+            const number = document.getElementById('numberInput').value;
 
-  <script>
-    const form = document.getElementById('callForm');
+            // Basic validation (optional but recommended)
+            if (isNaN(number) || number === "") {
+                alert("Please enter a valid number.");
+                return;
+            }
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const number = document.getElementById('number').value;
-      const calendlyLink = document.getElementById('calendlyLink').value;
-
-      try {
-        const response = await fetch('/outbound-call', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({ number, calendlyLink }),
-        });
-
-        const data = await response.json();
-        if (data.success) {
-          alert('Call initiated successfully!');
-        } else {
-          alert('Call initiation failed: ' + data.error);
+            fetch('/process_number', {  // Replace /process_number with your backend route
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ number: number }) // Send number in JSON format
+            })
+            .then(response => response.json()) // Assuming your backend sends JSON back
+            .then(data => {
+                // Display the response from the backend
+                document.getElementById('responseArea').textContent = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('responseArea').textContent = "An error occurred.";
+            });
         }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred: ' + error.message); // More informative error message
-      }
-    });
-  </script>
+    </script>
 </body>
 </html>
