@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Outbound Call</title>
+</head>
+<body>
+  <h1>Initiate Outbound Call</h1>
+  <form id="callForm">
+    <label for="number">Phone Number:</label>
+    <input type="tel" id="number" name="number" required><br><br>
+
+    <label for="calendlyLink">Calendly Link:</label>
+    <input type="url" id="calendlyLink" name="calendlyLink" required><br><br>
+
+    <button type="submit">Call</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('callForm');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const number = document.getElementById('number').value;
+      const calendlyLink = document.getElementById('calendlyLink').value;
+
+      try {
+        const response = await fetch('/outbound-call', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({ number, calendlyLink }),
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          alert('Call initiated successfully!');
+        } else {
+          alert('Call initiation failed: ' + data.error);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred: ' + error.message); // More informative error message
+      }
+    });
+  </script>
+</body>
+</html>

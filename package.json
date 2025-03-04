@@ -1,0 +1,23 @@
+{
+  "name": "your-app-name",
+  "version": "1.0.0",
+  "description": "Your application description",
+  "main": "your-app-file.js",
+  "scripts": {
+    "start": "node your-app-file.js"
+  },
+  "dependencies": {
+    "express": "",
+    "body-parser": "",
+    "twilio": "",
+    "openai": "",
+    "path": "",
+    "fs": "",
+    "cli-table3": "",
+    "elevenlabs-node": "",
+    "dotenv": ""
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
