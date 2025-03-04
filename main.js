@@ -457,15 +457,7 @@ app.post('/conversation', async (req, res) => {
     // Add a small pause to allow for natural conversation
     response.pause({ length: 1 });
 
-    // Add a final gather to ensure we catch the user's response
-    const finalGather = response.gather({
-      input: 'speech dtmf',
-      action: '/conversation',
-      method: 'POST',
-      timeout: 5,
-      speechTimeout: 'auto',
-      bargeIn: true,
-    });
+
 
     res.type('text/xml');
     res.send(response.toString());
